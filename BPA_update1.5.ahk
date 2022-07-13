@@ -1,4 +1,4 @@
-﻿FileList := ""
+FileList := ""
 Loop, Files, C:\BPA BACKUP\*.*, FD
     FileList .= A_LoopFileName "`n"
 
@@ -29,7 +29,13 @@ Click 345, 38
 Click 429, 106
 Sleep, 150
 hwnd := WinExist("ahk_class TFALT_CMP")
-Control, Choose,12 , TComboBox1, ahk_id %hwnd%
+
+CurrentDate := A_Now
+    CurrentDate += -1, D
+    FormatTime, TimeString, %CurrentDate%, M/d/yyyy
+    StringTrimRight, month, TimeString, 8
+
+Control, Choose,%month%, TComboBox1, ahk_id %hwnd%
 Sleep, 150
 SendInput {tab}
 Sleep, 150
@@ -100,6 +106,8 @@ Process,Close,bpamag.exe
 Process,Close,bpamag.exe
 Process,Close,bpamag.exe
 Process,Close,bpamag.exe
+
+FileAppend, 1, C:\BPA\atualizado.txt
 
 MsgBox "BPA Atualizado com sucesso"
 ExitApp
